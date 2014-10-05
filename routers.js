@@ -88,30 +88,7 @@ function joinHandler(req, res) {
 
 function distributeImage(room) {
   var imagePath = room.imagePath;
-  fragmentImage(imagePath, room.rows, room.cols);
-  var extensionLoc = imagePath.lastIndexOf('.');
-  var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
-  var basepath = imagePath.substring(0, extensionLoc);
-
-  // Distribute the images to the devices.
-  for (var i = 0; i < room.rows; i++) {
-    for (var j = 0; j < room.cols; j++) {
-      var socket = room.socketArray[i][j];
-      var imagePath = "./" + basepath + '.' + j.toString() + '.' + i.toString() + extension;
-      console.log(imagePath);
-      var f = function () {
-        var mysocket = socket;
-        var myi = i;
-        var myj = j;
-        fs.readFile(imagePath, function(err, buf){
-          console.log(imagePath);
-          console.log(err);
-          mysocket.emit('image', { image: true, buffer: buf});
-        });
-      };
-      f();
-    }
-  }
+  fragmentImage(room, imagePath, room.rows, room.cols);
 }
 
 // Utilities
@@ -124,7 +101,31 @@ function fragmentImage(imagePath, rows, cols) {
   //console.log('Main Path: ' + imagePath);
   var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+imagePath + ' -n ' + (rows*cols) + ' -d ' + rows + ':' + cols;
   //console.log(command);
-  exec(command, function (error, stdout, stderr) {if(error){console.log("PEIJIN's SCREWED");}});
+  exec(command, function (error, stdout, stderr) {
+    var extensionLoc = imagePath.lastIndexOf('.');
+    var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
+    var basepath = imagePath.substring(0, extensionLoc);
+
+    // Distribute the images to the devices.
+    for (var i = 0; i < room.rows; i++) {
+      for (var j = 0; j < room.cols; j++) {
+        var socket = room.socketArray[i][j];
+        var imagePath = "./" + basepath + '.' + j.toString() + '.' + i.toString() + extension;
+        console.log(imagePath);
+        var f = function () {
+          var mysocket = socket;
+          var myi = i;
+          var myj = j;
+          fs.readFile(imagePath, function(err, buf){
+            console.log(imagePath);
+            console.log(err);
+            mysocket.emit('image', { image: true, buffer: buf});
+          });
+        };
+        f();
+      }
+    }
+  });
 }
 
 http.listen(3000, function(){
