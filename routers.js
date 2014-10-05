@@ -4,8 +4,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
 var model = require('./model');
-var joinPage = require('./join');
 var fs = require('fs');
+var exec = require('child_process').exec;
 
 // Serve static files
 
@@ -28,8 +28,6 @@ app.get('/join', function(req, res){
 });
 
 app.get('/join/:room', joinHandler);
-
-app.post('/upload', uploadFile);
 
 app.get('/makeroom/:room', makeRoom);
 
@@ -82,13 +80,13 @@ function joinHandler(req, res) {
   }
 
   var room = model.rooms[req.param('room')];
-  //res.sendFile(path.join(__dirname, 'tmpjoin.html'));
-  res.sendFile(joinCreator.load(room.cols, room.rows));
+
+  res.sendFile(path.join(__dirname, 'tmpjoin.html'));
 }
 
 function distributeImage(room) {
   var imagePath = room.imagePath;
-  fragmentImage(imagePath);
+  fragmentImage(imagePath, room.rows, room.cols);
   var extensionLoc = imagePath.lastIndexOf('.');
   var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
   var basepath = imagePath.substring(0, extensionLoc);
@@ -111,8 +109,9 @@ function getRoomName() {
   return Math.round(Math.random()*1000);
 }
 
-function fragmentImage(imagePath) {
-  // TODO: Call Peijin's code to frag image.
+function fragmentImage(imagePath, rows, cols) {
+  var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+imagePath + '-d ' + rows + ':' + cols;
+  exec(command, function (error, stdout, stderr) {});
 }
 
 http.listen(3000, function(){
