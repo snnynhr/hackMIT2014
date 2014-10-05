@@ -92,14 +92,13 @@ function distributeImage(room) {
   var extensionLoc = imagePath.lastIndexOf('.');
   var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
   var basepath = imagePath.substring(0, extensionLoc);
-  console.log(room.numSocketsChosen);
 
   // Distribute the images to the devices.
   for (var i = 0; i < room.rows; i++) {
     for (var j = 0; j < room.cols; j++) {
-      console.log(i,j)
       var socket = room.socketArray[i][j];
       var imagePath = basepath + j.toString() + '.' + i.toString() + extension;
+      console.log(imagePath);
       var f = function () {
         var mysocket = socket;
         var myi = i;
@@ -120,8 +119,10 @@ function getRoomName() {
 }
 
 function fragmentImage(imagePath, rows, cols) {
+  console.log('Main Path: ' + imagePath);
   var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+imagePath + '-d ' + rows + ':' + cols;
-  exec(command, function (error, stdout, stderr) {});
+  console.log(command);
+  exec(command, function (error, stdout, stderr) {if(error){console.log("SCREWED");}});
 }
 
 http.listen(3000, function(){
