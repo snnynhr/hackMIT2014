@@ -35,6 +35,10 @@ public class SplitMedia {
     // Optional options
     options.addOption("a", "aspect-ratio", true, "Aspect ratio of the screens (width:height)");
     options.addOption("d", "distribution", true, "Distribution of screens (columns:rows)");
+    
+    // Video only options
+    options.addOption("ffmpeg", true, "Path to ffmpeg installation");
+    options.addOption("ffprobe", true, "Path to ffprobe installation");
 
     return options;
   }
@@ -65,8 +69,12 @@ public class SplitMedia {
           cmd.getOptionValue("aspect-ratio", "16:9"), cmd.getOptionValue("distribution"));
     }
     if (cmd.hasOption("video")) {
+      if (!cmd.hasOption("ffmpeg") || !cmd.hasOption("ffprobe")) {
+        throw new IllegalArgumentException("Paths to ffmpeg and ffprobe required for video");
+      }
       splitter = new VideoSplitter(cmd.getOptionValue("file"), cmd.getOptionValue("num-screens"),
-          cmd.getOptionValue("aspect-ratio", "16:9"), cmd.getOptionValue("distribution"));
+          cmd.getOptionValue("aspect-ratio", "16:9"), cmd.getOptionValue("distribution"),
+          cmd.getOptionValue("ffmpeg"), cmd.getOptionValue("ffprobe"));
     }
     splitter.splitFile();
   }

@@ -22,11 +22,11 @@ public class VideoSplitter extends AbstractSplitter {
   private String newvideo;
   private String bitrate;
 
-  public VideoSplitter(String input, String num, String aspect, String distribution)
-      throws IOException, InterruptedException {
+  public VideoSplitter(String input, String num, String aspect, String distribution, 
+      String ffmpeg, String ffprobe) throws IOException, InterruptedException {
     super(input, num, aspect, distribution);
-    ffmpegPath = setup("ffmpeg");
-    ffprobePath = setup("ffprobe");
+    ffmpegPath = ffmpeg;
+    ffprobePath = ffprobe;
 
     newvideo = getInputBase() + ".padded." + getInputExtension();
   }
@@ -34,6 +34,9 @@ public class VideoSplitter extends AbstractSplitter {
   /**
    * Extracts a binary from under the bin package and gives it executable
    * permissions
+   * 
+   * TODO: This doesn't work on the Linux server for some reason, no time to fix. We
+   * used a hack workaround but should figure this out later on
    */
   public String setup(String binary) throws IOException, InterruptedException {
     File temp = File.createTempFile(binary, "");

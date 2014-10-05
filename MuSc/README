@@ -5,12 +5,12 @@ Accessory functions for splitting images, video, and generating random URLs
 Usage:
 
 Random URL Generation:
-  java -cp MuSc.jar org.expee.MakeRandomURL
+  java -cp "MuSc.jar:lib/commons-cli-1.2.jar" org.expee.MakeRandomURL
   
 This will print a random string to console to use as the URL suffix
 
 Media Splitting:
-  java -cp MuSc.jar org.expee.musc.SplitMedia <args>
+  java -cp "MuSc.jar:lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia <args>
   
   Args:
     -i --image            If set, will assume the media file is an image
