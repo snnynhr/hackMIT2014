@@ -33,18 +33,7 @@
         client.on('open', function(){
           var box = $('#box');
           box.on('dragenter', doNothing);
-          box.on('dragover', function() {
-			//  get request
-			$.post("makeroom/" + roomNumber,
-			  {
-				rows:$$("#h")[0].value,
-				cols:$$("#w")[0].value
-			  },
-			  function(data,status){
-				alert("Data: " + data + "\nStatus: " + status);
-			  });
-		  
-		  });
+          box.on('dragover', doNothing);
           box.text('Drag files here');
           box.on('drop', function(e){
             e.originalEvent.preventDefault();
@@ -58,7 +47,19 @@
             // given metadata, and then chunks up and streams the data.
             var stream = client.send(file, {name: file.name, size: file.size, room: roomNumber});
 
-            // Print progress
+            
+			//  get request
+			$.post("/makeroom/" + roomNumber,
+			  {
+				rows:$$("#h")[0].value,
+				cols:$$("#w")[0].value
+			  },
+			  function(data,status){
+				alert("Data: " + data + "\nStatus: " + status);
+			  });
+		  
+			
+			// Print progress
             var tx = 0;
             stream.on('data', function(data){
               $('#progress').text(Math.round(tx+=data.rx*100) + '% complete');
