@@ -100,6 +100,15 @@ function getRoomName() {
   return Math.round(Math.random()*1000);
 }
 
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+}
+
 function fragmentImage(myroom, myimagePath, myrows, mycols) {
   console.log('Main Path: ' + myimagePath);
   var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+myimagePath + ' -n ' + (myrows*mycols) + ' -d ' + mycols + ':' + myrows;
@@ -115,7 +124,7 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
       var extensionLoc = imagePath.lastIndexOf('.');
       var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
       var basepath = imagePath.substring(0, extensionLoc);
-      setTimeout(function(){},2000);
+      sleep(2000);
       // Distribute the images to the devices.
       for (var i = 0; i < room.rows; i++) {
         for (var j = 0; j < room.cols; j++) {
