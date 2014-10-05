@@ -105,6 +105,7 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
   var f = function () {
     var room = myroom;
     var imagePath = room.imagePath;
+    console.log(imagePath);
     var rows = myrows;
     var cols = mycols;
     exec(command, function (error, stdout, stderr) {
