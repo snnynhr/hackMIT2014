@@ -99,7 +99,7 @@ function getRoomName() {
 }
 
 function fragmentImage(room, imagePath, rows, cols) {
-  //console.log('Main Path: ' + imagePath);
+  console.log('Main Path: ' + imagePath);
   var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+imagePath + ' -n ' + (rows*cols) + ' -d ' + rows + ':' + cols;
   //console.log(command);
   exec(command, function (error, stdout, stderr) {
