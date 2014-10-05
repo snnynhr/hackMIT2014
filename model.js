@@ -1,0 +1,1 @@
+exports.lol = 5;
