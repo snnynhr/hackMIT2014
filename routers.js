@@ -1,14 +1,18 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var path = require('path');
-var model = require('./model')
+var model = require('./model');
+
+// Serve static files
+
+app.use('/static', express.static(__dirname + '/static'));
 
 // Routers
 
 app.get('/', function(req, res){
   res.sendFile(path.join(__dirname,'title.html'));
 });
-
 
 // Host function
 
@@ -49,7 +53,7 @@ function distributeImage() {
 }
 
 function fragmentImage() {
-  
+
 }
 
 http.listen(3000, function(){
