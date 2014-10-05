@@ -104,7 +104,9 @@ function distributeImage(room) {
         var myi = i;
         var myj = j;
         fs.readFile(imagePath, function(err, buf){
-          mysocket.emit('image', { image: true, buffer: buf, person:'brian'});
+          console.log(imagePath);
+          console.log(err);
+          mysocket.emit('image', { image: true, buffer: buf});
         });
       };
       f();
@@ -119,10 +121,10 @@ function getRoomName() {
 }
 
 function fragmentImage(imagePath, rows, cols) {
-  console.log('Main Path: ' + imagePath);
+  //console.log('Main Path: ' + imagePath);
   var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+imagePath + ' -n ' + (rows*cols) + ' -d ' + rows + ':' + cols;
-  console.log(command);
-  exec(command, function (error, stdout, stderr) {if(error){console.log("SCREWED");}});
+  //console.log(command);
+  exec(command, function (error, stdout, stderr) {if(error){console.log("PEIJIN's SCREWED");}});
 }
 
 http.listen(3000, function(){
