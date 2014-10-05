@@ -41,7 +41,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-play-circle"></i>  <span class="light">Start</span> Bootstrap
+                    <i class="fa fa-play-circle"></i>  <span class="light"></span>
                 </a>
             </div>
 
@@ -75,16 +75,11 @@
                         <p class="intro-text">A multi-screen media share app.<br>Created by noobs.</p>
                         <ul class="list-inline banner-social-buttons">
                         <li>
-                            <a href="/host" class="btn btn-default btn-lg"><i class="fa-fw"></i> <span class="network-name">Host</span></a>
+                          <input class="btn btn-default btn-lg" type="submit" value="Host"
+                              onclick="window.location='/host';" />
                         </li>
                         <li>
-                          <form action="/host" method="get">
-                              <input type="submit" value="Host"
-                                   name="Submit" id="host" />
-                          </form>
-                        </li>
-                        <li>
-                            <a href="/host" class="btn btn-default btn-lg"><i class="fa-fw"></i> <span class="network-name">Join</span></a>
+                            <a href="index.html" class="btn btn-default btn-lg"><i class="fa-fw"></i> <span class="network-name">Join</span></a>
                         </li>
                     </ul>
                     </div>
