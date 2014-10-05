@@ -59,7 +59,7 @@ exports.generate = function(h,w)
                     "var socket = io('/'+roomName);\n"+
                     "console.log(roomName);\n"+
                     "socket.on('image', function(msg){\n"+
-                      "window.location.href = msg.url;\n"+
+                      "window.location.href = '../'+msg.url;\n"+
                     "});\n"+
                     "socket.emit('finalizePosition', {row: parseInt(this.id[1]), col: parseInt(this.id[0])});\n"+
                     "$(\"#\"+this.id).css(\"background-color\",\"rgba(255,255,255,0.6)\");\n"+
