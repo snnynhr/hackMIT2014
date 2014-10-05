@@ -119,12 +119,11 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
     console.log(imagePath);
     var rows = myrows;
     var cols = mycols;
-    var callback = function(imagePath, error, stdout, stderr) {
+    var callback = function(imagePath) {
       console.log(imagePath);
       var extensionLoc = imagePath.lastIndexOf('.');
       var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
       var basepath = imagePath.substring(0, extensionLoc);
-      sleep(2000);
       // Distribute the images to the devices.
       for (var i = 0; i < room.rows; i++) {
         for (var j = 0; j < room.cols; j++) {
@@ -134,7 +133,8 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
         }
       }
     }
-    exec(command, callback(imagePath));
+    var child = exec(command);
+    child.on('exit', callback(imagePath));
   // };
 
   // f();
