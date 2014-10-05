@@ -1,7 +1,7 @@
 package org.expee.splitters;
 
 /**
- * Given an image file, splits it into N parts where each part represents one
+ * Given a video file, splits it into N parts where each part represents one
  * section of the image Each part is guaranteed to have the same bitrate and
  * play at the same speed
  * 
