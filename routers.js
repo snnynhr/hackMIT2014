@@ -84,7 +84,7 @@ function joinHandler(req, res) {
 
   var room = model.rooms[req.param('room')];
 
-  res.send(generator.generate(room.rows, room.cols));
+  res.send(generator.generate(room.cols, room.rows));
   //res.sendFile(path.join(__dirname, 'tmpjoin.html'));
 }
 
@@ -111,7 +111,7 @@ function sleep(milliseconds) {
 
 function fragmentImage(myroom, myimagePath, myrows, mycols) {
   console.log('Main Path: ' + myimagePath);
-  var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+myimagePath + ' -n ' + (myrows*mycols) + ' -d ' + mycols + ':' + myrows;
+  var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+myimagePath + ' -n ' + (myrows*mycols) + ' -d ' + myrows + ':' + mycols;
   //console.log(command);
   // var f = function () {
     var room = myroom;
