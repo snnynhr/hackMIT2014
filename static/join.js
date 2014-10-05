@@ -50,5 +50,6 @@ function loadToString(h,w)
 }
 function exec() {
 	load(4,3);
+	console.log(loadToString(4,3));
 }
 document.addEventListener('DOMContentLoaded', exec);

@@ -4,12 +4,15 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
 var model = require('./model');
-var joinPage = require('./join');
 var fs = require('fs');
+var exec = require('child_process').exec;
+var generator = require('./generate');
 
 // Serve static files
 
 app.use('/static', express.static(__dirname + '/static'));
+
+app.use('/public', express.static(__dirname + '/public'));
 
 // Routers
 
@@ -28,8 +31,6 @@ app.get('/join', function(req, res){
 });
 
 app.get('/join/:room', joinHandler);
-
-app.post('/upload', uploadFile);
 
 app.get('/makeroom/:room', makeRoom);
 
@@ -82,27 +83,15 @@ function joinHandler(req, res) {
   }
 
   var room = model.rooms[req.param('room')];
+
+  res.send(generator.generate(room.cols, room.rows));
   //res.sendFile(path.join(__dirname, 'tmpjoin.html'));
-  res.sendFile(joinCreator.load(room.cols, room.rows));
 }
 
 function distributeImage(room) {
   var imagePath = room.imagePath;
-  fragmentImage(imagePath);
-  var extensionLoc = imagePath.lastIndexOf('.');
-  var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
-  var basepath = imagePath.substring(0, extensionLoc);
-
-  // Distribute the images to the devices.
-  for (var i = 0; i < room.rows; i++) {
-    for (var j = 0; j < room.cols; j++) {
-      var socket = room.socketArray[i][j];
-      var imagePath = basepath + j.toString() + '.' + i.toString() + extension;
-      fs.readFile(imagePath, function(err, buf){
-        socket.emit('image', { image: true, buffer: buf });
-      });
-    }
-  }
+  console.log(imagePath);
+  fragmentImage(room, imagePath, room.rows, room.cols);
 }
 
 // Utilities
@@ -111,10 +100,46 @@ function getRoomName() {
   return Math.round(Math.random()*1000);
 }
 
-function fragmentImage(imagePath) {
-  // TODO: Call Peijin's code to frag image.
+function sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
 }
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+function fragmentImage(myroom, myimagePath, myrows, mycols) {
+  console.log('Main Path: ' + myimagePath);
+  var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+myimagePath + ' -n ' + (myrows*mycols) + ' -d ' + myrows + ':' + mycols;
+  //console.log(command);
+  // var f = function () {
+    var room = myroom;
+    var imagePath = room.imagePath;
+    console.log(imagePath);
+    var rows = myrows;
+    var cols = mycols;
+    var callback = function(imagePath) {
+      console.log(imagePath);
+      var extensionLoc = imagePath.lastIndexOf('.');
+      var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
+      var basepath = imagePath.substring(0, extensionLoc);
+      // Distribute the images to the devices.
+      for (var i = 0; i < room.rows; i++) {
+        for (var j = 0; j < room.cols; j++) {
+          var socket = room.socketArray[i][j];
+          var imagePath = basepath + '.' + i.toString() + '.' + j.toString() + extension;
+          socket.emit('image', {url: imagePath});
+        }
+      }
+    }
+    var child = exec(command);
+    child.on('exit', function () {callback(imagePath)});
+  // };
+
+  // f();
+}
+
+http.listen(80, function(){
+  console.log('listening on *:80');
 });

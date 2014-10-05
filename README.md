@@ -1,5 +1,5 @@
 Multiple Screens (MuSc)
-===========
+=======================
 
 ![](https://raw.github.com/snnynhr/hackMIT2014/images/MUSC.png)
 
