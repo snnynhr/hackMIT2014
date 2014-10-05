@@ -8,21 +8,21 @@ package org.expee.splitters;
  */
 public class VideoSplitter extends AbstractSplitter
 {
-	public VideoSplitter(String input, String num, String aspect, String distribution) {
-		super(input, num, aspect, distribution);
-	}
-	
-	public int[] getResolution() {
-		int[] resolution = new int[2];
-		
-		return resolution;
-	}
-	
-	public void scaleInput() {
-		
-	}
-	
-	public void splitFile() {
-		
-	}
+  public VideoSplitter(String input, String num, String aspect, String distribution) {
+    super(input, num, aspect, distribution);
+  }
+  
+  public int[] getResolution() {
+    int[] resolution = new int[2];
+    
+    return resolution;
+  }
+  
+  public void scaleInput() {
+    
+  }
+  
+  public void splitFile() {
+    
+  }
 }
