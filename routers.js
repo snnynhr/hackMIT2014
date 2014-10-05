@@ -120,17 +120,8 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
           var socket = room.socketArray[i][j];
           var imagePath = '/HackMIT/hackMIT2014/' + basepath + '.' + j.toString() + '.' + i.toString() + extension;
           console.log(imagePath);
-          var f = function () {
-            var mysocket = socket;
-            var myi = i;
-            var myj = j;
-            fs.readFile(imagePath, function(err, buf){
-              console.log(imagePath);
-              console.log(err);
-              mysocket.emit('image', { image: true, buffer: buf});
-            });
-          };
-          f();
+          buf = fs.readFileSync(imagePath);
+          socket.emit('image', { image: true, buffer: buf});
         }
       }
     }
