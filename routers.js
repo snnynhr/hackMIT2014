@@ -52,23 +52,31 @@ function makeRoom(req, res) {
 }
 
 function joinHandler(req, res) {
-  
+  // TODO: Dynamically create an html file for clients to select position on grid.
 }
 
 function uploadFile(req, res) {
-  
+  var roomName = req.param('room');
+  var imageName = 'FILL THIS IN';
+  var imagePath = 'images/' + roomName + '/' + imageName;
+  model.rooms[roomName].setImagePath(imagePath);
+  // TODO: retrieve file and store in the folder specified by imagePath.
+  // TODO: if we have grid information, run Peijin's program to frag image.
+  tryDistributeImage(model.rooms[roomName]);
 }
 
 function updateGridPositions(req, res) {
-  
+  // TODO: Add a socket connection to the client.
 }
 
-function tryDistributeImage() {
-
+function tryDistributeImage(room) {
+  if (room.ready()) {
+    distributeImage(room);
+  }
 }
 
-function distributeImage() {
-
+function distributeImage(room) {
+  // TODO: Use Peijin's program to frag image.
 }
 
 // Utilities
@@ -78,7 +86,7 @@ function getRoomName() {
 }
 
 function fragmentImage() {
-
+  // TODO: Call Peijin's code to frag image.
 }
 
 http.listen(3000, function(){
