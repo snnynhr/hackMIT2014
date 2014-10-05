@@ -6,6 +6,7 @@ var path = require('path');
 var model = require('./model');
 var fs = require('fs');
 var exec = require('child_process').exec;
+var generator = require('./generate');
 
 // Serve static files
 
@@ -81,7 +82,8 @@ function joinHandler(req, res) {
 
   var room = model.rooms[req.param('room')];
 
-  res.sendFile(path.join(__dirname, 'tmpjoin.html'));
+  res.send(generator.generate(room.cols, room.rows));
+  //res.sendFile(path.join(__dirname, 'tmpjoin.html'));
 }
 
 function distributeImage(room) {
