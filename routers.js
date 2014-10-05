@@ -12,6 +12,8 @@ var generator = require('./generate');
 
 app.use('/static', express.static(__dirname + '/static'));
 
+app.use('/public', express.static(__dirname + '/public'));
+
 // Routers
 
 app.get('/', function(req, res){
@@ -118,10 +120,8 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
       for (var i = 0; i < room.rows; i++) {
         for (var j = 0; j < room.cols; j++) {
           var socket = room.socketArray[i][j];
-          var imagePath = '/HackMIT/hackMIT2014/' + basepath + '.' + j.toString() + '.' + i.toString() + extension;
-          console.log(imagePath);
-          buf = fs.readFileSync(imagePath);
-          socket.emit('image', { image: true, buffer: buf});
+          var imagePath = basepath + '.' + j.toString() + '.' + i.toString() + extension;
+          socket.emit('image', {url: imagePath});
         }
       }
     }
@@ -131,6 +131,6 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
   // f();
 }
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
+http.listen(80, function(){
+  console.log('listening on *:80');
 });
