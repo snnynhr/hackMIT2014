@@ -22,7 +22,7 @@ Media Splitting:
     --ffmpeg              Path to ffmpeg binary
     --ffprobe             Path to ffprobe binary
     
-  IE: java -jar MuSc.jar org.expee.musc.SplitMedia -i -f Image.png -n 6
+  IE: java -cp MuSc.jar org.expee.musc.SplitMedia -i -f Image.png -n 6
   
   If -v is set, paths to --ffmpeg and --ffprobe must be set as well. On the current Linux server,
   theyre under /HackMIT/hackMIT2014/MuSc/src/org/expee/musc/bin/(ffmpeg/ffprobe)
@@ -33,4 +33,15 @@ Media Splitting:
   For a screen distribution of 3 x 2 like:
     X X X
     X X X
+    
+  Images:
+    java -cp "/HackMIT/hackMIT2014/MuSc/MuSc.jar:/HackMIT/hackMIT2014/MuSc/lib/commons-cli-2.1.jar" \
+      org.expee.musc.SplitMedia -i -f <Image File> -n <Num Screens> -a <Aspect:Ratio> \
+      -d <Forced:Distribution>
+  
+  Videos:
+    java -cp "/HackMIT/hackMIT2014/MuSc/MuSc.jar:/HackMIT/hackMIT2014/MuSc/lib/commons-cli-2.1.jar" \
+      org.expee.musc.SplitMedia -v -f <Video File> -n <Num Screens> -a <Aspect:Ratio> \
+      -d <Forced:Distribution> --ffmpeg /HackMIT/hackMIT2014/MuSc/src/org/expee/musc/bin/ffmpeg \
+      --ffprobe /HackMIT/hackMIT2014/MuSc/src/org/expee/musc/bin/ffprobe 
     
