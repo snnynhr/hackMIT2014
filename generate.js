@@ -1,9 +1,9 @@
 function generate(h,w)
 {
-	String s = ""+
+	s = ""+
 "<!DOCTYPE html>\n"+
 "<html lang=\"en\">\n"+
-"<head>"+
+"<head>\n"+
 "    <meta charset=\"utf-8\">\n"+
 "   <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n"+
 "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"+
@@ -23,10 +23,10 @@ function generate(h,w)
 "<script>\n"+
 "function load(h,w)\n"+
 "{\n"+
-	"s = "";\n"+
+	"s = \"\";\n"+
 	"for(i=0; i<h; i++)\n"+
 	"{\n"+
-		"s +=  \"<div id=wrapp\"+i+\"></div>\n\";\n"+
+		"s +=  \"<div id=wrapp\"+i+\"></div>\\n\";\n"+
 	"}\n"+
 	"document.getElementById(\"wrapp\").innerHTML = s;\n"+
 	"var ww = document.getElementById(\"ccc\").offsetWidth;\n"+
@@ -40,7 +40,7 @@ function generate(h,w)
 			"$('<button>')\n"+
 		        ".attr({'id':i+\"\"+j,'style':'display:inline; width: '+www+\"px; height: \" + hhh + \"px; background-color: rgba(0,0,0,0.4);\"})\n"+
 		        ".appendTo('#wrapp'+i)\n"+
-		        ".text(\"(\"+i+","+j+\")\")\n"+
+		        ".text(\"(\"+i+\",\"+j+\")\")\n"+
 		        ".click(function(){\n"+
 		            "console.log(this.id);\n"+
 		            "$(\"#\"+this.id).css(\"background-color\",\"rgba(255,255,255,0.6)\");\n"+
@@ -48,7 +48,7 @@ function generate(h,w)
 		"}\n"+
 	"}\n"+
 "}\n"+
-"document.addEventListener('DOMContentLoaded', load("+h+",+"+w+"));\n"+
+"document.addEventListener('DOMContentLoaded', load("+h+","+w+"));\n"+
 "</script>\n"+
 "</head>\n"+
 "<body id=\"page-top\" data-spy=\"scroll\" data-target=\".navbar-fixed-top\">\n"+
@@ -63,4 +63,5 @@ function generate(h,w)
     "<script src=\"static/js/grayscale.js\"></script>\n"+
 "</body>\n"+
 "</html>\n";
+	return s;
 }
