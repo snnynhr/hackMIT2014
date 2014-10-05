@@ -44,5 +44,5 @@ exports.Room.prototype.positionSocket = function (row, col, socket)
 // Return true iff the image has been uploaded and all the clients are ready.
 exports.Room.prototype.ready = function ()
 {
-  return (this.imagePath != undefined && this.numSocketsChosen == numRows * numColumns);
+  return (this.imagePath != undefined && this.numSocketsChosen == this.rows * this.cols);
 }
