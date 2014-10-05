@@ -49,10 +49,10 @@
 
             
 			//  get request
-			$.post("/makeroom/" + roomNumber,
+			$.get("/makeroom/" + roomNumber,
 			  {
-				rows:$$("#h")[0].value,
-				cols:$$("#w")[0].value
+				rows:$("#h")[0].value,
+				cols:$("#w")[0].value
 			  },
 			  function(data,status){
 				alert("Data: " + data + "\nStatus: " + status);
