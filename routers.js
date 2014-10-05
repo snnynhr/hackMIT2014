@@ -118,7 +118,7 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
       for (var i = 0; i < room.rows; i++) {
         for (var j = 0; j < room.cols; j++) {
           var socket = room.socketArray[i][j];
-          var imagePath = "./" + basepath + '.' + j.toString() + '.' + i.toString() + extension;
+          var imagePath = basepath + '.' + j.toString() + '.' + i.toString() + extension;
           console.log(imagePath);
           var f = function () {
             var mysocket = socket;
