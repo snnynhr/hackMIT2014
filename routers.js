@@ -100,9 +100,9 @@ function getRoomName() {
 
 function fragmentImage(myroom, myimagePath, myrows, mycols) {
   console.log('Main Path: ' + myimagePath);
-  var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+myimagePath + ' -n ' + (myrows*mycols) + ' -d ' + myrows + ':' + mycols;
+  var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+myimagePath + ' -n ' + (myrows*mycols) + ' -d ' + mycols + ':' + myrows;
   //console.log(command);
-  var f = function () {
+  // var f = function () {
     var room = myroom;
     var imagePath = room.imagePath;
     console.log(imagePath);
@@ -134,9 +134,9 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
         }
       }
     });
-  };
+  // };
 
-  f();
+  // f();
 }
 
 http.listen(3000, function(){
