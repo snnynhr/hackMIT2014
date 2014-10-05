@@ -78,8 +78,8 @@ public abstract class AbstractSplitter {
       int awidth = asp[0];
       int aheight = asp[1];
 
-      dist[1] = (int) Math.round(Math.sqrt((double) (height * numScreens * awidth)
-          / (width * aheight)));
+      dist[1] = Math.max((int) Math.round(Math.sqrt((double) (height * numScreens * awidth)
+          / (width * aheight))), 1);
       dist[0] = numScreens / dist[1];
     }
 
