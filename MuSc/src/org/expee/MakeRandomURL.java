@@ -46,8 +46,8 @@ public class MakeRandomURL
 	}
 	
 	public MakeRandomURL() throws IOException {
-		ArrayList<String> adjectives = readData("adjectives.txt");
-		ArrayList<String> nouns = readData("nouns.txt");
+	  ArrayList<String> adjectives = readData("adjectives.txt");
+	  ArrayList<String> nouns = readData("nouns.txt");
 		printRandomURL(adjectives, nouns);
 	}
 	
