@@ -43,7 +43,7 @@
 
             // `client.send` is a helper function that creates a stream with the
             // given metadata, and then chunks up and streams the data.
-            var stream = client.send(file, {name: file.name, size: file.size, room: room2[0]});
+            var stream = client.send(file, {name: file.name, size: file.size, room: room2[1]});
 
             // Print progress
             var tx = 0;
