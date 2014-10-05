@@ -33,11 +33,7 @@
         client.on('open', function(){
           var box = $('#box');
           box.on('dragenter', doNothing);
-          box.on('dragover', doNothing);
-          box.text('Drag files here');
-          box.on('drop', function(e){
-            e.originalEvent.preventDefault();
-            var file = e.originalEvent.dataTransfer.files[0];
+          box.on('dragover', function() {
 			//  get request
 			$.post("makeroom/" + roomNumber,
 			  {
@@ -47,6 +43,13 @@
 			  function(data,status){
 				alert("Data: " + data + "\nStatus: " + status);
 			  });
+		  
+		  });
+          box.text('Drag files here');
+          box.on('drop', function(e){
+            e.originalEvent.preventDefault();
+            var file = e.originalEvent.dataTransfer.files[0];
+			
 
             // Add to list of uploaded files
             $('<div align="center"></div>').append($('<a></a>').text(file.name).prop('href', '/'+file.name)).appendTo('body');
