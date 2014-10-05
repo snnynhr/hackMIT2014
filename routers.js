@@ -92,15 +92,23 @@ function distributeImage(room) {
   var extensionLoc = imagePath.lastIndexOf('.');
   var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
   var basepath = imagePath.substring(0, extensionLoc);
+  console.log(room.numSocketsChosen);
 
   // Distribute the images to the devices.
   for (var i = 0; i < room.rows; i++) {
     for (var j = 0; j < room.cols; j++) {
+      console.log(i,j)
       var socket = room.socketArray[i][j];
       var imagePath = basepath + j.toString() + '.' + i.toString() + extension;
-      fs.readFile(imagePath, function(err, buf){
-        socket.emit('image', { image: true, buffer: buf });
-      });
+      var f = function () {
+        var mysocket = socket;
+        var myi = i;
+        var myj = j;
+        fs.readFile(imagePath, function(err, buf){
+          mysocket.emit('image', { image: true, i:myi, j:myj});
+        });
+      };
+      f();
     }
   }
 }

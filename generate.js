@@ -12,6 +12,7 @@ exports.generate = function(h,w)
 "\n"+
     "<title>MuSc</title>\n"+
 "\n"+
+    "<script src=\"/socket.io/socket.io.js\"></script>\n"+
     "<!-- Bootstrap Core CSS -->\n"+
     "<link href=\"/static/css/bootstrap.min.css\" rel=\"stylesheet\">\n"+
     "<link href=\"/static/css/grayscale.css\" rel=\"stylesheet\">\n"+
@@ -28,7 +29,7 @@ exports.generate = function(h,w)
     "</header>\n"+
     "<script src=\"/static/js/jquery-1.11.0.js\"></script>\n"+
     "<script src=\"/static/js/bootstrap.min.js\"></script>\n"+
-    "<script src=\"/static/js/jquery.easing.min.js\"></script>=\n"+
+    "<script src=\"/static/js/jquery.easing.min.js\"></script>\n"+
     "<script src=\"/static/js/grayscale.js\"></script>\n"+
     "<script>\n"+
     "function load(h,w)\n"+
@@ -36,7 +37,7 @@ exports.generate = function(h,w)
       "s = \"\";\n"+
       "for(i=0; i<h; i++)\n"+
       "{\n"+
-        "s +=  '<div id=\"wrapp\"'+i+'\"></div>\\n\"';\n"+
+        "s +=  '<div id=\"wrapp'+i+'\"></div>\\n'\n"+
       "}\n"+
       "document.getElementById(\"wrapp\").innerHTML = s;\n"+
       "var ww = document.getElementById(\"ccc\").offsetWidth;\n"+
@@ -60,7 +61,7 @@ exports.generate = function(h,w)
                     "socket.on('image', function(msg){\n"+
                       "console.log(msg);\n"+
                     "});\n"+
-                    "socket.emit('finalizePosition', {row: parseInt(this.id[0]), col: parseInt(this.is[1])});\n"+
+                    "socket.emit('finalizePosition', {row: parseInt(this.id[1]), col: parseInt(this.id[0])});\n"+
                     "$(\"#\"+this.id).css(\"background-color\",\"rgba(255,255,255,0.6)\");\n"+
                 "});\n"+
         "}\n"+
