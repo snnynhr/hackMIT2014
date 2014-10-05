@@ -26,6 +26,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
       <script src="http://cdn.binaryjs.com/0/binary.js"></script>
       <script>
+        var room =window.location.href.split("/").pop();
         var client = new BinaryClient('ws://104.131.72.234:9000');
         // Wait for connection to BinaryJS server
         client.on('open', function(){
@@ -42,7 +43,7 @@
 
             // `client.send` is a helper function that creates a stream with the
             // given metadata, and then chunks up and streams the data.
-            var stream = client.send(file, {name: file.name, size: file.size});
+            var stream = client.send(file, {name: file.name, size: file.size, room: room});
 
             // Print progress
             var tx = 0;
