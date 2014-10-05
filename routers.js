@@ -102,6 +102,7 @@ function fragmentImage(room, imagePath, rows, cols) {
   var command = 'java -cp "MuSc/MuSc.jar:MuSc/lib/commons-cli-1.2.jar" org.expee.musc.SplitMedia -i -f '+imagePath + ' -n ' + (rows*cols) + ' -d ' + rows + ':' + cols;
   //console.log(command);
   exec(command, function (error, stdout, stderr) {
+    console.log(imagePath);
     var extensionLoc = imagePath.lastIndexOf('.');
     var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
     var basepath = imagePath.substring(0, extensionLoc);
