@@ -27,6 +27,7 @@
       <script src="http://cdn.binaryjs.com/0/binary.js"></script>
       <script>
         var room2 = window.location.pathname.split( '/' );
+		var roomNumber = room2[2];
         var client = new BinaryClient('ws://104.131.72.234:9000');
         // Wait for connection to BinaryJS server
         client.on('open', function(){
@@ -37,13 +38,22 @@
           box.on('drop', function(e){
             e.originalEvent.preventDefault();
             var file = e.originalEvent.dataTransfer.files[0];
+			//  get request
+			$.post("makeroom/" + roomNumber,
+			  {
+				rows:$$("#h")[0].value,
+				cols:$$("#w")[0].value
+			  },
+			  function(data,status){
+				alert("Data: " + data + "\nStatus: " + status);
+			  });
 
             // Add to list of uploaded files
             $('<div align="center"></div>').append($('<a></a>').text(file.name).prop('href', '/'+file.name)).appendTo('body');
 
             // `client.send` is a helper function that creates a stream with the
             // given metadata, and then chunks up and streams the data.
-            var stream = client.send(file, {name: file.name, size: file.size, room: room2[2]});
+            var stream = client.send(file, {name: file.name, size: file.size, room: roomNumber});
 
             // Print progress
             var tx = 0;
