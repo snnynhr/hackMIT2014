@@ -84,7 +84,7 @@ function joinHandler(req, res) {
 
   var room = model.rooms[req.param('room')];
 
-  res.send(generator.generate(room.cols, room.rows));
+  res.send(generator.generate(room.rows, room.cols));
   //res.sendFile(path.join(__dirname, 'tmpjoin.html'));
 }
 
