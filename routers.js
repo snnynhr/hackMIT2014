@@ -115,7 +115,7 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
       var extensionLoc = imagePath.lastIndexOf('.');
       var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
       var basepath = imagePath.substring(0, extensionLoc);
-
+      wait(2);
       // Distribute the images to the devices.
       for (var i = 0; i < room.rows; i++) {
         for (var j = 0; j < room.cols; j++) {
