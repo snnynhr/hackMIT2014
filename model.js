@@ -10,13 +10,14 @@ exports.Room.prototype.makeRoom = function (numRows, numColumns)
 {
   this.rows = numRows;
   this.cols = numColumns;
-  this.sockets = {};
+  this.socketArray = [];
   for (var i = 0; i < numRows; i++) {
-    (this.sockets).push([]);
+    (this.socketArray).push([]);
     for (var j = 0; j < numColumns; j++) {
-      (this.sockets[i]).push(undefined);
+      (this.socketArray[i]).push(undefined);
     }
   }
+  this.socketList = [];
   this.imagePath = undefined;
   this.numSocketsChosen = 0;
 };
@@ -26,12 +27,18 @@ exports.Room.prototype.setImagePath = function (path)
   this.imagePath = path;
 };
 
-exports.Room.prototype.addSocket = function (row, col, socket)
+
+exports.Room.prototype.addSocket = function (socket)
 {
-  if (!this.sockets[row][col]) {
+  (this.socketList).push(socket);
+}
+
+exports.Room.prototype.positionSocket = function (row, col, socket)
+{
+  if (!this.socketArray[row][col]) {
     this.numSocketsChosen += 1;
   }
-  this.sockets[row][col] = socket;
+  this.socketArray[row][col] = socket;
 };
 
 // Return true iff the image has been uploaded and all the clients are ready.
