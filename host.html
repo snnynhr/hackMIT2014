@@ -20,8 +20,44 @@
     <!-- Custom Fonts -->
     <link href="static/font-awesome-4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script src="static/host.js"></script>
-    <!--link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
-    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"-->
+    <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+      <script src="http://cdn.binaryjs.com/0/binary.js"></script>
+      <script>
+        var client = new BinaryClient('ws://104.131.72.234:9000');
+        // Wait for connection to BinaryJS server
+        client.on('open', function(){
+          var box = $('#box');
+          box.on('dragenter', doNothing);
+          box.on('dragover', doNothing);
+          box.text('Drag files here');
+          box.on('drop', function(e){
+            e.originalEvent.preventDefault();
+            var file = e.originalEvent.dataTransfer.files[0];
+
+            // Add to list of uploaded files
+            $('<div align="center"></div>').append($('<a></a>').text(file.name).prop('href', '/'+file.name)).appendTo('body');
+
+            // `client.send` is a helper function that creates a stream with the
+            // given metadata, and then chunks up and streams the data.
+            var stream = client.send(file, {name: file.name, size: file.size});
+
+            // Print progress
+            var tx = 0;
+            stream.on('data', function(data){
+              $('#progress').text(Math.round(tx+=data.rx*100) + '% complete');
+            });
+          });
+        });
+
+        // Deal with DOM quirks
+        function doNothing (e){
+          e.preventDefault();
+          e.stopPropagation();
+        }
+     </script>
 
 </head>
 
@@ -40,14 +76,19 @@
                         <h2>Specs</h2>
                        <p>Height:
                        <input class="btn-default btn-lg" id = "h" type="number" value = "1" min="1" max="5">
-                       </p>
-                       <p>Width:
+
+                       Width:
                        <input class="btn-default btn-lg" id = "w" type="number" value = "1" min="1" max="5">
                        </p>
+                       <!--
                        <p align = "center">
                        <input id="file" class="btn-default btn-lg" type="file" name="pic" accept="image/*|video/*">
                        </p>
-                       <button id ="submit" class="btn btn-default btn-lg">Submit</button>
+                       <button id ="submit" class="btn btn-default btn-lg">Submit</button><br><br><br>-->
+                       <div id="progress" class="btn-default btn-lg" align="center">0% complete</div>
+                       <div id="box" class="btn-default" style="background: rgba(0,0,0,0.4); font-size: 26px; width: 400px; height: 300px;line-height: 300px; margin: 0 auto; text-align: center;">
+                         Connecting...
+                       </div>
                     </div>
                 </div>
             </div>
