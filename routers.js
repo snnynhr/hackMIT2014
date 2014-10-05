@@ -4,6 +4,8 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var path = require('path');
 var model = require('./model');
+var joinPage = require('./join');
+var fs = require('fs');
 
 // Serve static files
 
@@ -37,17 +39,6 @@ function hostHandler(req, res) {
   var roomName = getRoomName();
   var newRoom = new model.Room();
   model.rooms[roomName] = newRoom;
-  newRoom.makeRoom(3,3);
-
-  // Make sockets
-  var nsp = io.of('/' + roomName);
-  nsp.on('connection', function(socket){
-    console.log('received client connection');
-    socket.on('finalizePosition', function (position) {
-      console.log(position.row, position.col);
-      newRoom.positionSocket(position.row, position.col, socket);
-    });
-  });
 
   res.statusCode = 302;
   res.setHeader('Location', '/host/' + roomName);
@@ -58,8 +49,25 @@ function makeRoom(req, res) {
   var roomName = req.param('room');
   var numRows = req.param('rows');
   var numCols = req.param('cols');
+  var imageName = req.param('name');
 
-  model.rooms[roomName].makeRoom(numRows, numCols);
+  var room = model.rooms[roomName];
+  room.makeRoom(numRows, numCols);
+  room.setImagePath('public/' + roomName + '-' + imageName);
+
+  // Make sockets
+  var nsp = io.of('/' + roomName);
+  nsp.on('connection', function(socket){
+    console.log('received client connection');
+    socket.on('finalizePosition', function (position) {
+      console.log(position.row, position.col);
+      room.positionSocket(position.row, position.col, socket);
+      if (room.ready()) {
+        distributeImage(room);
+      }
+    });
+  });
+
   res.statusCode = 302; 
   res.setHeader('Location', '/join/' + roomName);
   res.end();
@@ -72,32 +80,29 @@ function joinHandler(req, res) {
     res.send('Not a valid room.');
     res.end();
   }
-  res.sendFile(path.join(__dirname, 'tmpjoin.html'));
-  // TODO: Dynamically create an html file for clients to select position on grid.
-}
 
-function uploadFile(req, res) {
-  var roomName = req.param('room');
-  var imageName = 'FILL THIS IN';
-  var imagePath = 'images/' + roomName + '/' + imageName;
-  model.rooms[roomName].setImagePath(imagePath);
-  // TODO: retrieve file and store in the folder specified by imagePath.
-  // TODO: if we have grid information, run Peijin's program to frag image.
-  tryDistributeImage(model.rooms[roomName]);
-}
-
-function updateGridPositions(req, res) {
-  // TODO: Add a socket connection to the client.
-}
-
-function tryDistributeImage(room) {
-  if (room.ready()) {
-    distributeImage(room);
-  }
+  var room = model.rooms[req.param('room')];
+  //res.sendFile(path.join(__dirname, 'tmpjoin.html'));
+  res.sendFile(joinCreator.load(room.cols, room.rows));
 }
 
 function distributeImage(room) {
-  // TODO: Use Peijin's program to frag image.
+  var imagePath = room.imagePath;
+  fragmentImage(imagePath);
+  var extensionLoc = imagePath.lastIndexOf('.');
+  var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
+  var basepath = imagePath.substring(0, extensionLoc);
+
+  // Distribute the images to the devices.
+  for (var i = 0; i < room.rows; i++) {
+    for (var j = 0; j < room.cols; j++) {
+      var socket = room.socketArray[i][j];
+      var imagePath = basepath + j.toString() + '.' + i.toString() + extension;
+      fs.readFile(imagePath, function(err, buf){
+        socket.emit('image', { image: true, buffer: buf });
+      });
+    }
+  }
 }
 
 // Utilities
@@ -106,7 +111,7 @@ function getRoomName() {
   return Math.round(Math.random()*1000);
 }
 
-function fragmentImage() {
+function fragmentImage(imagePath) {
   // TODO: Call Peijin's code to frag image.
 }
 
