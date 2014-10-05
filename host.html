@@ -46,22 +46,15 @@
             // `client.send` is a helper function that creates a stream with the
             // given metadata, and then chunks up and streams the data.
             var stream = client.send(file, {name: file.name, size: file.size, room: roomNumber});
-
-            
-			//  get request
-			$.get("/makeroom/" + roomNumber,
-			  {
-				rows:$("#h")[0].value,
-				cols:$("#w")[0].value,
-				name: file.name
-			  });
-		  
-			
+		
 			// Print progress
             var tx = 0;
             stream.on('data', function(data){
-              $('#progress').text(Math.round(tx+=data.rx*100) + '% complete');
+              $('#progress').text(Math.round(tx+=data.rx*100) + '% complete ' + tx);
               $('#progress').css({'width':Math.round(tx)+"%"});
+			  if (tx > 99.999) {
+			    window.location = "/makeroom/?rows=" + $("#h")[0].value + "&cols=" + $("#w")[0].value + "&name=" + file.name;
+			  }
             });
           });
         });
