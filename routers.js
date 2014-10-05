@@ -134,7 +134,7 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
       }
     }
     var child = exec(command);
-    child.on('exit', callback(imagePath));
+    child.on('exit', function () {callback(imagePath)});
   // };
 
   // f();
