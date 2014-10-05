@@ -7,10 +7,10 @@ function load(h,w)
 	}
 	document.getElementById("wrapp").innerHTML = s;
 
-	var ww = $(window).width();
-	var www = Math.floor(((0.8)*ww)/w);
+	var ww = document.getElementById("ccc").offsetWidth;
+	var www = Math.floor(((0.97)*ww)/w);
 	var hh = $(window).height();
-	var hhh = Math.floor(((0.8)*hh)/h);
+	var hhh = Math.floor((hh)/h);
 	console.log(ww);
 	console.log(www);
 	console.log(hh);
@@ -20,7 +20,7 @@ function load(h,w)
 		for(j=0; j<w; j++)
 		{
 			$('<button>')
-		        .attr({'id':i+""+j,'style':'width: '+www+"px; height: " + hhh + "px; background-color: rgba(0,0,0,0.4);"})
+		        .attr({'id':i+""+j,'style':'display:inline; width: '+www+"px; height: " + hhh + "px; background-color: rgba(0,0,0,0.4);"})
 		        .appendTo('#wrapp'+i)
 		        .text("("+i+","+j+")")
 		        .click(function(){
