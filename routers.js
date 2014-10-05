@@ -105,7 +105,7 @@ function distributeImage(room) {
         var myi = i;
         var myj = j;
         fs.readFile(imagePath, function(err, buf){
-          mysocket.emit('image', { image: true, buffer: buf});
+          mysocket.emit('image', { image: true, buffer: buf, person:'brian'});
         });
       };
       f();
