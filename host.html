@@ -53,7 +53,7 @@
               $('#progress').text(Math.round(tx+=data.rx*100) + '% complete ' + tx);
               $('#progress').css({'width':Math.round(tx)+"%"});
 			  if (tx > 99.999) {
-			    window.location = "/makeroom/?rows=" + $("#h")[0].value + "&cols=" + $("#w")[0].value + "&name=" + file.name;
+			    window.location = "/makeroom/" + roomNumber +"?rows=" + $("#h")[0].value + "&cols=" + $("#w")[0].value + "&name=" + file.name;
 			  }
             });
           });
