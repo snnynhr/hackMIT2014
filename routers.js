@@ -88,6 +88,7 @@ function joinHandler(req, res) {
 
 function distributeImage(room) {
   var imagePath = room.imagePath;
+  console.log(imagePath);
   fragmentImage(room, imagePath, room.rows, room.cols);
 }
 
