@@ -4,7 +4,9 @@ exports.rooms = {};
 
 // Room class.
 
-exports.Room = function (numRows, numColumns)
+exports.Room = function () {};
+
+exports.Room.prototype.makeRoom = function (numRows, numColumns)
 {
   this.rows = numRows;
   this.cols = numColumns;
@@ -16,7 +18,6 @@ exports.Room = function (numRows, numColumns)
     }
   }
   this.imagePath = undefined;
-  this.fileUploaded = false;
   this.numSocketsChosen = 0;
 };
 
@@ -32,3 +33,9 @@ exports.Room.prototype.addSocket = function (row, col, socket)
   }
   this.sockets[row][col] = socket;
 };
+
+// Return true iff the image has been uploaded and all the clients are ready.
+exports.Room.prototype.ready = function ()
+{
+  return (this.imagePath != undefined && this.numSocketsChosen == numRows * numColumns);
+}
