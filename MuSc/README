@@ -1,0 +1,31 @@
+MuSc Java jar
+
+Accessory functions for splitting images, video, and generating random URLs
+
+Usage:
+
+Random URL Generation:
+  java -cp MuSc.jar org.expee.MakeRandomURL
+  
+This will print a random string to console to use as the URL suffix
+
+Media Splitting:
+  java -cp MuSc.jar org.expee.SplitMedia <args>
+  
+  Args:
+    -i --image            If set, will assume the media file is an image
+    -v --video            If set, will assume the media file is a video
+    -f --file             Path to the media file to be split
+    -n --num-screens      Number of screens to split across
+    -a --aspect-ratio     Aspect ratio, if not set defaults to 16:9
+    -d --distribution     Distribution of screens, if not set will determine it optimally
+    
+  IE: java -jar MuSc.jar org.expee.SplitMedia -i -f Image.png -n 6
+  
+  The output files will be in the same directory as the input file and will have a suffix of col.row
+  IE for the example, outputs might be:
+    Image.0.0.png, Image.1.0.png, Image.2.0.png, Image.0.1.png, Image.1.1.png, Image.2.2.png
+  For a screen distribution of 3 x 2 like:
+    X X X
+    X X X
+    
