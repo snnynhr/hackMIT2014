@@ -1,7 +1,7 @@
 Multiple Screens (MuSc)
 =======================
 
-![](https://raw.github.com/snnynhr/hackMIT2014/images/MUSC.png)
+![](https://raw.github.com/snnynhr/hackMIT2014/master/images/MUSC.png)
 
 MuSc is a revolutionary web application capable of splitting pictures and video content to be displayed
 across several independent screens. Contrary to traditional dual, tri, or multiple screen setups, MuSc
