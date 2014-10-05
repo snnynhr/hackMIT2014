@@ -108,7 +108,7 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
     console.log(imagePath);
     var rows = myrows;
     var cols = mycols;
-    exec(command, function (error, stdout, stderr) {
+    var callback = function(error, stdout, stderr) {
       console.log(imagePath);
       var extensionLoc = imagePath.lastIndexOf('.');
       var extension = imagePath.substring(extensionLoc, imagePath.length); //Extension will be like ".jpeg"
@@ -133,7 +133,8 @@ function fragmentImage(myroom, myimagePath, myrows, mycols) {
           f();
         }
       }
-    });
+    }
+    exec(command, callback);
   // };
 
   // f();
